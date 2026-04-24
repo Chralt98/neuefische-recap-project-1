@@ -24,7 +24,10 @@
     <link rel="stylesheet" href="style.css" />
     <!-- You should properly set the path from the main file. -->
     <title>Document</title>
-    <script type="module" src="../dist/detail.js"></script>
+    <script type="module">
+      import { init } from "../dist/detail.js";
+      init();
+    </script>
   </head>
   <body>
     <header class="header">

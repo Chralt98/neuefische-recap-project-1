@@ -1,5 +1,4 @@
 import type {
-  Book,
   ApiResponse,
   BookDetail,
   DisplayBookDetail,
@@ -33,4 +32,42 @@ async function fetchDisplayBookDetail(
   return displayBookDetail;
 }
 
-console.log(fetchDisplayBookDetail("9781787125421"));
+export async function init() {
+  const mainElement = document.querySelector("main.container") as HTMLElement;
+  mainElement.innerHTML = "";
+
+  const displayBookDetail = await fetchDisplayBookDetail("1001606140805");
+  if (!displayBookDetail) {
+    // TODO: show an empty template book detail
+    return;
+  }
+  const detailContainerHTML = `
+        <h1>
+            ${displayBookDetail.title}<br>
+            <small>${displayBookDetail.subtitle}</small>
+        </h1>
+        <section class="row">
+            <div class="column column-67">
+            <h3>Abstract</h3>
+            <p>
+                ${displayBookDetail.abstract}
+            </p>
+
+            <h4>Details</h4>
+            <ul>
+                <li><strong>Author:</strong> ${displayBookDetail.author}</li>
+                <li><strong>Publisher:</strong> ${displayBookDetail.publisher}</li>
+                <li><strong>Pages:</strong> ${displayBookDetail.numPages}</li>
+            </ul>
+
+            <button class="button button-outline" onclick="location.href = 'index.html'">
+                Back
+            </button>
+            </div>
+            <div class="column column-33">
+            <img src="images/1001606140805.png" alt="">
+            </div>
+        </section>
+    `;
+  mainElement.innerHTML = detailContainerHTML;
+}
