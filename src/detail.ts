@@ -32,11 +32,11 @@ async function fetchDisplayBookDetail(
   return displayBookDetail;
 }
 
-export async function init() {
+export async function initDetail() {
   const mainElement = document.querySelector("main.container") as HTMLElement;
   mainElement.innerHTML = "";
 
-  const displayBookDetail = await fetchDisplayBookDetail("1001606140805");
+  const displayBookDetail = await fetchDisplayBookDetail("9780071740647");
   if (!displayBookDetail) {
     // TODO: show an empty template book detail
     return;
