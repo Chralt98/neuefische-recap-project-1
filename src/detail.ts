@@ -5,6 +5,9 @@ import type {
 } from "../types/book.d.ts";
 import { API_URL } from "./config.js";
 
+const params = new URLSearchParams(window.location.search);
+const isbn = params.get("isbn");
+
 // Create a detail page for each book. All required information in the template file src/detail.html should be displayed on this page.
 
 async function fetchDisplayBookDetail(
@@ -36,7 +39,11 @@ export async function initDetail() {
   const mainElement = document.querySelector("main.container") as HTMLElement;
   mainElement.innerHTML = "";
 
-  const displayBookDetail = await fetchDisplayBookDetail("9780071740647");
+  if (!isbn) {
+    return;
+  }
+
+  const displayBookDetail = await fetchDisplayBookDetail(isbn);
   if (!displayBookDetail) {
     // TODO: show an empty template book detail
     return;

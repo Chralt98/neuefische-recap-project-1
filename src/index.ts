@@ -68,7 +68,7 @@ function createBookListItem(book: DisplayBook): HTMLTableRowElement {
         <td>${book.author}</td>
         <td>${book.publisher}</td>
         <td>
-            <button class="button" onclick="location.href = 'detail.html'">
+            <button class="button" onclick="location.href = 'detail.html?isbn=${book.isbn}'">
             Detail
             </button>
         </td>
