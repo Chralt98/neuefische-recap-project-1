@@ -12,6 +12,12 @@ type Book = {
 
 export type DisplayBook = Pick<Book, "title" | "isbn" | "author" | "publisher">;
 
+type Liked = {
+  isLiked: boolean;
+};
+
+export type DisplayBookWithLike = DisplayBook & Liked;
+
 type EntityId = { id: string };
 type UserId = { userId: number };
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -24,6 +24,10 @@
     <link rel="stylesheet" href="style.css" />
     <!-- You should properly set the path from the main file. -->
     <title>Document</title>
+    <script type="module">
+      import { initFavorite } from "../dist/detail.js";
+      initFavorite();
+    </script>
   </head>
   <body>
     <header class="header">
@@ -96,7 +100,10 @@
                 <td>Kevin Sahin</td>
                 <td>Leanpub</td>
                 <td>
-                  <button class="button" onclick="location.href='detail.html'">
+                  <button
+                    class="button"
+                    onclick="location.href = 'detail.html'"
+                  >
                     Detail
                   </button>
                 </td>
@@ -123,7 +130,10 @@
                 <td>Kevin Sahin</td>
                 <td>Leanpub</td>
                 <td>
-                  <button class="button" onclick="location.href='detail.html'">
+                  <button
+                    class="button"
+                    onclick="location.href = 'detail.html'"
+                  >
                     Detail
                   </button>
                 </td>
