@@ -1,14 +1,17 @@
 import type { Book, ApiResponse, DisplayBook } from "../types/book.d.ts";
 
-const API_URL = "http://localhost:4730";
+export const API_URL = "http://localhost:4730";
 
 async function fetchDisplayBooks(): Promise<DisplayBook[]> {
-  var data: ApiResponse<Book[]> = [];
+  let data: ApiResponse<Book[]> = null;
   try {
     const response = await fetch(API_URL + "/books", { method: "GET" });
     data = (await response.json()) as ApiResponse<Book[]>;
   } catch (error) {
     console.error("Error fetching books: ", error);
+  }
+  if (!data) {
+    return [];
   }
   const displayBooks: DisplayBook[] = data.map((book) => ({
     title: book.title,

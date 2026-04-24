@@ -1,4 +1,4 @@
-export type Book = {
+type Book = {
   title: string;
   subtitle: string;
   isbn: string;
@@ -12,4 +12,14 @@ export type Book = {
 
 export type DisplayBook = Pick<Book, "title" | "isbn" | "author" | "publisher">;
 
-export type ApiResponse<T> = T;
+type EntityId = { id: string };
+type UserId = { userId: number };
+
+export type BookDetail = EntityId & Book & UserId;
+
+export type DisplayBookDetail = Pick<
+  BookDetail,
+  "title" | "subtitle" | "abstract" | "author" | "publisher" | "numPages"
+>;
+
+export type ApiResponse<T> = T | null;
