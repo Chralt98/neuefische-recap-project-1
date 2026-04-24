@@ -2,7 +2,7 @@ import type { Book, ApiResponse, DisplayBook } from "../types/book.d.ts";
 
 const API_URL = "http://localhost:4730";
 
-async function displayBooks(): Promise<DisplayBook[]> {
+async function fetchDisplayBooks(): Promise<DisplayBook[]> {
   var data: ApiResponse<Book[]> = [];
   try {
     const response = await fetch(API_URL + "/books", { method: "GET" });
@@ -72,16 +72,56 @@ function createBookListItem(book: DisplayBook): HTMLTableRowElement {
   return tableItem;
 }
 
-async function fillBookList() {
-  const bookList = document.querySelector("tbody") as HTMLTableSectionElement;
-  const books = await displayBooks();
+const selectPublisher = document.getElementById(
+  "by-publisher",
+) as HTMLSelectElement;
 
-  books
-    .map((book) => createBookListItem(book))
-    .forEach((listItem) => bookList.append(listItem));
+function createSelectorItem(publisher: string): HTMLOptionElement {
+  const selectorItem = document.createElement("option");
+  selectorItem.value = publisher.toLowerCase();
+  selectorItem.text = publisher;
+  return selectorItem;
 }
 
-fillBookList();
+const bookList = document.querySelector("tbody") as HTMLTableSectionElement;
+
+async function fillBookList(displayBooks: DisplayBook[]) {
+  bookList.innerHTML = "";
+  selectPublisher.innerHTML = `<option value="-">-</option>`;
+  let selectors = new Set<string>();
+  displayBooks.forEach((book) => {
+    if (!selectors.has(book.publisher)) {
+      const selectorItem = createSelectorItem(book.publisher);
+      selectPublisher.append(selectorItem);
+      selectors.add(book.publisher);
+    }
+
+    const bookListItem = createBookListItem(book);
+    bookList.append(bookListItem);
+  });
+}
+
+const displayBooks = await fetchDisplayBooks();
+fillBookList(displayBooks);
+
+let filteredDisplayBooks: DisplayBook[] = [];
+
+const searchInput = document.getElementById("search") as HTMLInputElement;
+searchInput.addEventListener("input", (event: InputEvent) => {
+  const value = (event.currentTarget as HTMLInputElement).value;
+  filteredDisplayBooks = displayBooks.filter((book) =>
+    book.title.toLowerCase().includes(value.toLowerCase()),
+  );
+  fillBookList(filteredDisplayBooks);
+});
+
+selectPublisher.addEventListener("change", (event: Event) => {
+  const selectedValue = (event.currentTarget as HTMLSelectElement).value;
+  filteredDisplayBooks = filteredDisplayBooks.filter(
+    (book) => book.publisher.toLowerCase() == selectedValue.toLowerCase(),
+  );
+  fillBookList(filteredDisplayBooks);
+});
 // console.log("Fetching books...");
 // console.log(await displayBooks());
 
