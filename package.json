@@ -1,0 +1,18 @@
+{
+  "name": "neuefische-recap-project-1",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start:api": "bun run bookmonkey-api"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "bookmonkey-api": "^3.2.0"
+  }
+}
