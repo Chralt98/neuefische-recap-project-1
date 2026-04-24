@@ -85,50 +85,52 @@ function createSelectorItem(publisher: string): HTMLOptionElement {
 
 const bookList = document.querySelector("tbody") as HTMLTableSectionElement;
 
-async function fillBookList(displayBooks: DisplayBook[]) {
+function fillBookList(displayBooks: DisplayBook[]) {
   bookList.innerHTML = "";
-  selectPublisher.innerHTML = `<option value="-">-</option>`;
-  let selectors = new Set<string>();
-  displayBooks.forEach((book) => {
-    if (!selectors.has(book.publisher)) {
-      const selectorItem = createSelectorItem(book.publisher);
-      selectPublisher.append(selectorItem);
-      selectors.add(book.publisher);
-    }
 
+  displayBooks.forEach((book) => {
     const bookListItem = createBookListItem(book);
     bookList.append(bookListItem);
   });
 }
 
-const displayBooks = await fetchDisplayBooks();
-fillBookList(displayBooks);
+function addSelectors(allDisplayBooks: DisplayBook[]) {
+  selectPublisher.innerHTML = `<option value="-">-</option>`;
+  let selectors = new Set<string>();
+  allDisplayBooks.forEach((book) => {
+    if (!selectors.has(book.publisher)) {
+      const selectorItem = createSelectorItem(book.publisher);
+      selectPublisher.append(selectorItem);
+      selectors.add(book.publisher);
+    }
+  });
+}
 
-let filteredDisplayBooks: DisplayBook[] = [];
+let displayBooks: DisplayBook[] = await fetchDisplayBooks();
+addSelectors(displayBooks);
+
+let searchQuery = "";
+let selectedPublisher = "-";
+
+function applyFilters() {
+  const filtered = displayBooks.filter(
+    (book) =>
+      book.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      (selectedPublisher === "-" ||
+        book.publisher.toLowerCase() === selectedPublisher),
+  );
+  fillBookList(filtered);
+}
 
 const searchInput = document.getElementById("search") as HTMLInputElement;
 searchInput.addEventListener("input", (event: InputEvent) => {
-  const value = (event.currentTarget as HTMLInputElement).value;
-  filteredDisplayBooks = displayBooks.filter((book) =>
-    book.title.toLowerCase().includes(value.toLowerCase()),
-  );
-  fillBookList(filteredDisplayBooks);
+  searchQuery = (event.currentTarget as HTMLInputElement).value;
+  applyFilters();
 });
 
 selectPublisher.addEventListener("change", (event: Event) => {
-  const selectedValue = (event.currentTarget as HTMLSelectElement).value;
-  filteredDisplayBooks = filteredDisplayBooks.filter(
-    (book) => book.publisher.toLowerCase() == selectedValue.toLowerCase(),
-  );
-  fillBookList(filteredDisplayBooks);
+  selectedPublisher = (event.currentTarget as HTMLSelectElement).value;
+  applyFilters();
 });
-// console.log("Fetching books...");
-// console.log(await displayBooks());
 
-// async function createBook(payload: BookCreatePayload): Promise<ApiResponse<Book>> {
-//   const response = await fetch("/api/books", {
-//     method: "POST",
-//     body: JSON.stringify(payload),
-//   });
-//   return (await response.json()) as ApiResponse<Book>;
-// }
+applyFilters();
