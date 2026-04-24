@@ -4,7 +4,7 @@ import type {
   BookDetail,
   DisplayBookDetail,
 } from "../types/book.d.ts";
-import { API_URL } from "./index.js";
+import { API_URL } from "./config.js";
 
 // Create a detail page for each book. All required information in the template file src/detail.html should be displayed on this page.
 

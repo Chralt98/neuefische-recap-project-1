@@ -1,6 +1,9 @@
 import type { Book, ApiResponse, DisplayBook } from "../types/book.d.ts";
+import { API_URL } from "./config.js";
 
-export const API_URL = "http://localhost:4730";
+let allBooks: DisplayBook[] = [];
+let searchQuery = "";
+let selectedPublisher = "-";
 
 async function fetchDisplayBooks(): Promise<DisplayBook[]> {
   let data: ApiResponse<Book[]> = null;
@@ -109,14 +112,8 @@ function addSelectors(allDisplayBooks: DisplayBook[]) {
   });
 }
 
-let displayBooks: DisplayBook[] = await fetchDisplayBooks();
-addSelectors(displayBooks);
-
-let searchQuery = "";
-let selectedPublisher = "-";
-
 function applyFilters() {
-  const filtered = displayBooks.filter(
+  const filtered = allBooks.filter(
     (book) =>
       book.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
       (selectedPublisher === "-" ||
@@ -125,15 +122,21 @@ function applyFilters() {
   fillBookList(filtered);
 }
 
-const searchInput = document.getElementById("search") as HTMLInputElement;
-searchInput.addEventListener("input", (event: InputEvent) => {
-  searchQuery = (event.currentTarget as HTMLInputElement).value;
-  applyFilters();
-});
+export async function init() {
+  allBooks = await fetchDisplayBooks();
+  addSelectors(allBooks);
+  const searchInput = document.getElementById("search") as HTMLInputElement;
+  searchInput.addEventListener("input", (e) => {
+    searchQuery = (e.currentTarget as HTMLInputElement).value;
+    applyFilters();
+  });
+  const selectPublisher = document.getElementById(
+    "by-publisher",
+  ) as HTMLSelectElement;
+  selectPublisher.addEventListener("change", (e) => {
+    selectedPublisher = (e.currentTarget as HTMLSelectElement).value;
+    applyFilters();
+  });
 
-selectPublisher.addEventListener("change", (event: Event) => {
-  selectedPublisher = (event.currentTarget as HTMLSelectElement).value;
   applyFilters();
-});
-
-applyFilters();
+}
