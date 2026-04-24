@@ -7,6 +7,7 @@
     "start": "nodemon",
     "start:api": "bun run bookmonkey-api",
     "start:tsx": "tsx --watch src/index.ts",
+    "build": "tsc",
     "compile": "tsc --watch",
     "compile:noEmit": "tsc --watch --noEmit",
     "con:dev": "concurrently \"bun run start:tsx\" \"bun run compile:noEmit\"",

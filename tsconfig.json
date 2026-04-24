@@ -7,7 +7,7 @@
     "target": "ESNext",
     "module": "ESnext",
     "lib": ["ESNext", "dom"],
-    "types": ["node"],
+    "types": [],
 
     // Best practices
     "strict": true,
