@@ -4,20 +4,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "nodemon",
     "start:api": "bun run bookmonkey-api",
-    "start:tsx": "tsx --watch src/index.ts",
     "build": "tsc",
-    "compile": "tsc --watch",
-    "compile:noEmit": "tsc --watch --noEmit",
-    "con:dev": "concurrently \"bun run start:tsx\" \"bun run compile:noEmit\"",
-    "con:prod": "concurrently \"bun run nodemon\" \"bun run compile\""
+    "build:watch": "tsc --watch"
   },
   "devDependencies": {
-    "@types/node": "^25.6.0",
-    "concurrently": "^9.2.1",
-    "nodemon": "^3.1.14",
-    "tsx": "^4.21.0",
     "typescript": "^6.0.3"
   },
   "dependencies": {
