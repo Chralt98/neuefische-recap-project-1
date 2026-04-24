@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -22,6 +22,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
     />
     <link rel="stylesheet" href="style.css" />
+    <script type="module" src="src/index.ts"></script>
     <!-- You should properly set the path from the main file. -->
     <title>Document</title>
   </head>
@@ -94,7 +95,10 @@
                 <td>Kevin Sahin</td>
                 <td>Leanpub</td>
                 <td>
-                  <button class="button" onclick="location.href='detail.html'">
+                  <button
+                    class="button"
+                    onclick="location.href = 'detail.html'"
+                  >
                     Detail
                   </button>
                 </td>
@@ -123,7 +127,10 @@
                 <td>Kevin Sahin</td>
                 <td>Leanpub</td>
                 <td>
-                  <button class="button" onclick="location.href='detail.html'">
+                  <button
+                    class="button"
+                    onclick="location.href = 'detail.html'"
+                  >
                     Detail
                   </button>
                 </td>
