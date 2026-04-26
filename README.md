@@ -54,23 +54,23 @@ Your task is to implement the following features in the app. You can find the re
 
 #### Add a filterable book listing
 
-- [ ] All books of the customer must be presented in a table.
+- [X] All books of the customer must be presented in a table.
 	- The following information of a book should be displayed per row
 		- title
 		- isbn
 		- author
 		- publisher
-- [ ] Implement a search by title functionality
-- [ ] Implement a filter to show only books from a specific publisher
+- [X] Implement a search by title functionality
+- [X] Implement a filter to show only books from a specific publisher
 
 #### Add detail page
 
-- [ ] Create a detail page for each book. All required information in the template file src/detail.html should be displayed on this page.
-- [ ] The detail page of each book should be accessible from the list view
+- [X] Create a detail page for each book. All required information in the template file src/detail.html should be displayed on this page.
+- [X] The detail page of each book should be accessible from the list view
 
 #### Add a favorites list
 
-- [ ] It must be possible to add a book as a favorite in the list view
+- [X] It must be possible to add a book as a favorite in the list view
 - [ ] The favorites list should be accessible in the header of the application
 - [ ] The count of favorite books should be displayed in the header
 - [ ] It should be possible to remove a favorite
