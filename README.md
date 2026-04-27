@@ -71,7 +71,7 @@ Your task is to implement the following features in the app. You can find the re
 #### Add a favorites list
 
 - [X] It must be possible to add a book as a favorite in the list view
-- [ ] The favorites list should be accessible in the header of the application
+- [X] The favorites list should be accessible in the header of the application
 - [ ] The count of favorite books should be displayed in the header
-- [ ] It should be possible to remove a favorite
-- [ ] The favorites should be permanently saved in the user’s client, so that the next time he visits, his saved books will be displayed again.
+- [X] It should be possible to remove a favorite
+- [X] The favorites should be permanently saved in the user’s client, so that the next time he visits, his saved books will be displayed again.
