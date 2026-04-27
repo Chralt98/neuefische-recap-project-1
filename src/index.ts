@@ -93,6 +93,24 @@ function createSelectorItem(publisher: string): HTMLOptionElement {
   return selectorItem;
 }
 
+function updateBooksHeading(count: number) {
+  const booksHeading = document.querySelector(
+    "main.container > h2",
+  ) as HTMLHeadingElement;
+  if (booksHeading) {
+    booksHeading.textContent = `${count} Books displayed`;
+  }
+}
+
+function updateFavoriteCount(count: number) {
+  const navNumber = document.querySelector(
+    ".mainnav-number",
+  ) as HTMLSpanElement;
+  if (navNumber) {
+    navNumber.textContent = `${count}`;
+  }
+}
+
 function toggleLikeButton(book: DisplayBookWithLike, btn: HTMLButtonElement) {
   book.isLiked = !book.isLiked;
   const storedBooks = localStorage.getItem(FAVORITE_BOOKS_KEY);
@@ -101,10 +119,12 @@ function toggleLikeButton(book: DisplayBookWithLike, btn: HTMLButtonElement) {
     if (!favoriteBooks.includes(book.isbn)) {
       favoriteBooks.push(book.isbn);
     }
+    updateFavoriteCount(favoriteBooks.length);
     localStorage.setItem(FAVORITE_BOOKS_KEY, JSON.stringify(favoriteBooks));
     btn.innerHTML = LIKED_SYMBOL;
   } else {
     favoriteBooks = favoriteBooks.filter((isbn) => isbn !== book.isbn);
+    updateFavoriteCount(favoriteBooks.length);
     localStorage.setItem(FAVORITE_BOOKS_KEY, JSON.stringify(favoriteBooks));
     btn.innerHTML = UNLIKED_SYMBOL;
   }
@@ -128,6 +148,7 @@ function fillBookList(displayBooks: DisplayBook[]) {
 
   const storedBooks = localStorage.getItem(FAVORITE_BOOKS_KEY);
   const favoriteBooks: string[] = storedBooks ? JSON.parse(storedBooks) : [];
+  updateFavoriteCount(favoriteBooks.length);
   displayBooks.forEach((book) => {
     const isLiked = favoriteBooks.includes(book.isbn);
     const displayBookWithLike = { ...book, isLiked };
@@ -159,6 +180,7 @@ export function applyFilters() {
       (selectedPublisher === "-" ||
         book.publisher.toLowerCase() === selectedPublisher),
   );
+  updateBooksHeading(filtered.length);
   fillBookList(filtered);
 }
 

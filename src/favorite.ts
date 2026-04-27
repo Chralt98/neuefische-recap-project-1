@@ -25,19 +25,35 @@ let allBooks: DisplayBook[] = [];
 let searchQuery = "";
 let selectedPublisher = "-";
 
+function updateFavoriteCount(count: number) {
+  const favoriteHeading = document.querySelector(
+    "main.container > h2",
+  ) as HTMLHeadingElement;
+  if (favoriteHeading) {
+    favoriteHeading.textContent = `${count} Favorites on your list`;
+  }
+  const navNumber = document.querySelector(
+    ".mainnav-number",
+  ) as HTMLSpanElement;
+  if (navNumber) {
+    navNumber.textContent = `${count}`;
+  }
+}
+
 function handleRemoveButton(
   bookListItem: HTMLTableRowElement,
   book: DisplayBook,
 ) {
   const favBtn = bookListItem.querySelector(".fav-btn") as HTMLButtonElement;
-  const storedBooks = localStorage.getItem(FAVORITE_BOOKS_KEY);
-  let favoriteBooks: string[] = storedBooks ? JSON.parse(storedBooks) : [];
   favBtn.addEventListener("click", (event: MouseEvent) => {
-    bookListItem.remove();
+    const storedBooks = localStorage.getItem(FAVORITE_BOOKS_KEY);
+    let favoriteBooks: string[] = storedBooks ? JSON.parse(storedBooks) : [];
     favoriteBooks = favoriteBooks.filter((isbn) => isbn !== book.isbn);
+    console.log(favoriteBooks);
+    updateFavoriteCount(favoriteBooks.length);
     localStorage.setItem(FAVORITE_BOOKS_KEY, JSON.stringify(favoriteBooks));
+    bookListItem.remove();
   });
-  console.log(localStorage.getItem(FAVORITE_BOOKS_KEY));
 }
 
 const bookList = document.querySelector("tbody") as HTMLTableSectionElement;
@@ -67,6 +83,7 @@ export async function initFavorite() {
   const storedBooks = localStorage.getItem(FAVORITE_BOOKS_KEY);
   const favoriteBooks: string[] = storedBooks ? JSON.parse(storedBooks) : [];
   allBooks = allBooks.filter((book) => favoriteBooks.includes(book.isbn));
+  updateFavoriteCount(favoriteBooks.length);
   addSelectors(allBooks);
   const searchInput = document.getElementById("search") as HTMLInputElement;
   searchInput.addEventListener("input", (e) => {
